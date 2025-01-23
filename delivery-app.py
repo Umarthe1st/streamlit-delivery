@@ -6,14 +6,53 @@ import pandas as pd
 # Load the trained GBR model
 model = joblib.load('trained_Delivery_Time.pkl')
 
-# Streamlit app title
-st.write("""
-# Delivery Time Prediction App
-This app predicts the **Delivery Time** for food orders using a Gradient Boosting Regressor (GBR).
-""")
+# Apply custom styles
+st.markdown(
+    """
+    <style>
+    .main-header {
+        font-size: 40px;
+        color: #FF4B4B;
+        text-align: center;
+        font-weight: bold;
+    }
+    .sub-header {
+        font-size: 20px;
+        color: #333333;
+        text-align: center;
+        margin-top: -10px;
+    }
+    .sidebar-section {
+        font-size: 16px;
+        color: #444444;
+        margin-bottom: 20px;
+    }
+    .prediction-result {
+        font-size: 24px;
+        color: #1E90FF;
+        text-align: center;
+        font-weight: bold;
+    }
+    .success-box {
+        background-color: #DFF2BF;
+        color: #4F8A10;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-st.sidebar.header('Delivery Variables')
+# App Title
+st.markdown('<div class="main-header">Delivery Time Prediction App</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Predicting delivery time using Gradient Boosting Regressor</div>', unsafe_allow_html=True)
 
+# Sidebar input header
+st.sidebar.markdown('<div class="sidebar-section">Customize the input parameters below:</div>', unsafe_allow_html=True)
+
+# Function to get user input
 def Deliver_variables():
     distance_km = st.sidebar.slider('Distance (km)', 0.0, 50.0, 5.0, step=0.1)
     preparation_time_min = st.sidebar.slider('Preparation Time (minutes)', 0.0, 120.0, 15.0, step=1.0)
@@ -64,10 +103,13 @@ def Deliver_variables():
 
 data, input_features = Deliver_variables()
 
+# Display user input in a styled format
 st.subheader('User Input Parameters')
-st.write(pd.DataFrame([data]))
+user_input_df = pd.DataFrame([data])
+st.table(user_input_df.style.set_properties(**{'text-align': 'center'}))
 
+# Prediction and result display
 if st.button("Predict Delivery Time"):
     prediction = model.predict([input_features])[0]
-    st.subheader('Prediction')
-    st.success(f"Predicted Delivery Time: {prediction:.2f} minutes")
+    st.markdown('<div class="prediction-result">Prediction</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="success-box">Predicted Delivery Time: {prediction:.2f} minutes</div>', unsafe_allow_html=True)
