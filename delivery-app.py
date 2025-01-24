@@ -3,10 +3,8 @@ import joblib
 import numpy as np
 import pandas as pd
 
-# Load the trained GBR model
 model = joblib.load('trained_Delivery_Time.pkl')
 
-# Apply custom styles
 st.markdown(
     """
     <style>
@@ -100,7 +98,7 @@ def Deliver_variables():
 
 data, input_features = Deliver_variables()
 
-st.subheader('User Input Parameters')
+st.subheader('Details')
 user_input_df = pd.DataFrame([data])
 st.table(user_input_df.style.set_properties(**{'text-align': 'center'}))
 
