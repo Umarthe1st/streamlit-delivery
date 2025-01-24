@@ -45,14 +45,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# App Title
 st.markdown('<div class="main-header">Delivery Time Prediction App</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Predicting delivery time using Gradient Boosting Regressor</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Predicting delivery times</div>', unsafe_allow_html=True)
 
-# Sidebar input header
-st.sidebar.markdown('<div class="sidebar-section">Customize the input parameters below:</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-section">Input the details below:</div>', unsafe_allow_html=True)
 
-# Function to get user input
 def Deliver_variables():
     distance_km = st.sidebar.slider('Distance (km)', 0.0, 50.0, 5.0, step=0.1)
     preparation_time_min = st.sidebar.slider('Preparation Time (minutes)', 0.0, 120.0, 15.0, step=1.0)
@@ -103,12 +100,10 @@ def Deliver_variables():
 
 data, input_features = Deliver_variables()
 
-# Display user input in a styled format
 st.subheader('User Input Parameters')
 user_input_df = pd.DataFrame([data])
 st.table(user_input_df.style.set_properties(**{'text-align': 'center'}))
 
-# Prediction and result display
 if st.button("Predict Delivery Time"):
     prediction = model.predict([input_features])[0]
     st.markdown('<div class="prediction-result">Prediction</div>', unsafe_allow_html=True)
